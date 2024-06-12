@@ -1,0 +1,12 @@
+spring:
+  config:
+    activate:
+      on-profile: qa
+  application:
+    name: night-time-temperature
+
+server:
+  port: 8080  # Different port for qa profile
+
+webclient:
+  base-url: https://api.sunrise-sunset.org/json

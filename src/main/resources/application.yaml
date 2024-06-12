@@ -1,0 +1,9 @@
+spring:
+  application:
+    name: night-time-temperature
+  profiles:
+    active: qa
+
+server:
+  port: 8080
+

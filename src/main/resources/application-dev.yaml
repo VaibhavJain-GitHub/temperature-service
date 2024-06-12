@@ -1,0 +1,10 @@
+spring:
+  config:
+    activate:
+      on-profile: dev
+
+server:
+  port: 8080  # Different port for dev profile
+
+webclient:
+  base-url: http://wiremock:8080/json

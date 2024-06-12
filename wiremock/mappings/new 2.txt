@@ -1,0 +1,59 @@
+# Use an official Gradle image to build the jar
+FROM gradle:7.4.2-jdk11 as builder
+
+# Set the working directory inside the container
+WORKDIR /app
+
+# Copy the project files to the container
+COPY . .
+
+# Build the jar file
+RUN gradle bootJar --no-daemon
+
+# Use an official OpenJDK runtime as a parent image
+FROM openjdk:17-jdk-alpine
+
+# Set the working directory inside the container
+WORKDIR /app
+
+# Copy the built jar file from the builder stage
+COPY --from=builder /app/build/libs/*.jar app.jar
+
+# Expose the port the app runs on
+EXPOSE 8080
+
+# Set environment variable to specify the active profile
+ENV SPRING_PROFILES_ACTIVE=dev
+
+# Run the jar file
+ENTRYPOINT ["java", "-jar", "app.jar"]
+
+
+
+spring:
+  application:
+    name: night-time-temperature
+server:
+  port: 8080
+webclient:
+  base-url: https://api.sunrise-sunset.org/json
+  
+  spring:
+  application:
+    name: night-time-temperature
+server:
+  port: 8080
+webclient:
+  base-url: https://api.sunrise-sunset.org/json
+  
+  
+  spring:
+  profiles: dev
+webclient:
+  base-url: http://wiremock:8080/json
+
+
+spring:
+  profiles: qa
+webclient:
+  base-url: https://api.sunrise-sunset.org/json
